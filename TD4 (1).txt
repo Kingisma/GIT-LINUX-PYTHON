@@ -1,0 +1,100 @@
+EXO 2
+
+1
+cd example-repo
+git checkout -b test2
+2
+echo "bonjour" > test2.txt
+3
+git add test2.txt
+git commit -m "Add test2.txt file"
+4
+git push origin test2
+
+Exercise 3: Merge simple changes
+
+1
+git checkout master
+git merge test2
+
+2
+git push origin master
+git push origin main
+
+Exercise 4: Resolve merge conflicts
+
+1
+git checkout test2
+
+2
+nano README.md
+
+3
+git add README.md
+git commit -m "Update README.md with custom content"
+
+4
+
+git checkout master
+git pull origin master
+
+5
+git merge test2
+
+7
+git add README.md
+git commit -m "Resolve merge conflicts in README.md"
+
+8
+git push origin master
+
+Exercise 5: Take latest changes from master in local branch
+
+1
+git checkout master
+git pull origin master
+cat README.md
+
+2
+git checkout test2
+
+3
+git merge master
+
+4
+git add README.md
+git commit -m "Merge changes from master into my branch"
+
+Exercise 6: Delete a branch
+
+git checkout master
+git branch -d test2
+
+2
+
+git push origin --delete test2
+
+Exercise 7: 
+1
+git checkout master
+git pull origin master
+2
+git checkout -b test3
+4
+
+git rebase -i commit-hash^
+
+5
+git push origin test3
+
+Exercise 8: Create and approve a Merge/Pull Request
+
+git checkout master
+git pull origin master
+git checkout test2
+git rebase master
+
+git add path/to/conflicted-file
+git rebase --continue
+
+git push -f origin test2

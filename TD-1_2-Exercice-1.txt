@@ -1,0 +1,77 @@
+TD 1_2
+
+
+sudo apt-get update : mettre à jour la liste des packages disponibles
+cat /etc/os-release : afficher des informations sur le système d'exploitation
+ps -ef : afficher les processus en cours d'exécution
+top : afficher les processus les plus consommateurs de ressources
+lscpu|grep cache : afficher des informations sur les caches processeur
+df -h : afficher l'espace disque utilisé et disponible pour chaque système de fichiers monté
+du -h : afficher la taille des fichiers et dossiers dans le répertoire courant
+cat /proc/mounts : afficher les systèmes de fichiers montés
+dmesg | grep usb : afficher les informations relatives aux périphériques USB détectés
+hostname : afficher le nom de l'hôte
+
+
+TD 1_2 Exercice 2:
+x="piri pimpin"
+echo $x
+x="$x piri pimpon"
+echo $x
+see ~/TD2/my_programs/pilou
+echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+PATH=$PATH:/home/admin/TD2/my_programs/
+~/TD2/my_programs>echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/admin/TD1_2/my_programs/
+--> now you can execute by just typing pilou
+cd
+emacs .profile
+
+
+TD 1_2 Exercice 3:
+see ~/TD1_2/say_hello.sh
+crontab -l
+ ▪️ command to be executed
+
+| | | | |
+| | | | ----- Day of week (0 - 7) (Sunday=0 or 7)
+| | | ------- Month (1 - 12)
+| | --------- Day of month (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)
+to edit the crontab :
+crontab -e
+---> /home/admin/TD1_2/say_hello.sh
+cat hellos.txt
+
+TD 1_2 Exercice 5:
+cd
+sudo apt-get update
+sudo apt-get install qpdf
+--> go to /home/admin/TD1_2/compress
+echo "Hello" > hello
+cat hello
+cat hello | zlib-flate -compress=1 > hello.z
+cat hello.z
+xH?~/TD1_2/compress>
+cat hello.z | zlib-flate -uncompress
+Hello
+ls -l hello >>log_compress
+ls -l hello.z >>log_compress
+-----> see write_hellos.sh
+wc -l hello_multiple
+1000 hello_multiple
+cat hello_multiple | zlib-flate -compress=1 > hello_multiple.z
+cat hello_multiple.z | zlib-flate -uncompress | tail
+cat hello_multiple.z | zlib-flate -uncompress | wc -l
+ls -l hello_multiple >>log_compress
+ls -l hello_multiple.z >>log_compress
+cat hello_multiple_i | zlib-flate -compress=1 > hello_multiple_i.z
+cat hello_multiple_i.z | zlib-flate -uncompress | tail
+cat hello_multiple_i.z | zlib-flate -uncompress | wc -l
+
+TD 1_2 Exercice 6:
+useradd, 
+groupadd, 
+usermod
