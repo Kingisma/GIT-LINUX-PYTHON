@@ -71,7 +71,6 @@ def update_dashboard(n):
             "close": 11000,
             "evolution": 0.1
         }
-
     # Create a table to display the daily metrics
     table_rows = [
         html.Tr([html.Td(metric.capitalize(), style={"padding": "5px"}), html.Td(str(value), style={"padding": "5px"})]) for metric, value in daily_metrics.items()
@@ -79,8 +78,7 @@ def update_dashboard(n):
     daily_table = html.Div(
         [
             html.H2("Daily Report", style={"color": "#ecf0f1"}),
-            html.Table(table_rows, style={"margin-top": "20px", "margin-left": "auto", "margin-right": "auto", "border": "1px solid #
-            #7f8c8d", "border-collapse": "collapse", "width": "50%", "color": "#ecf0f1"})
+            html.Table(table_rows, style={"margin-top": "20px", "margin-left": "auto", "margin-right": "auto", "border": "1px solid #7f8c8d", "border-collapse": "collapse", "width": "50%", "color": "#ecf0f1"})
         ],
         style={"padding": "20px", "backgroundColor": "#2c3e50", "borderRadius": "10px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)"}
     )
@@ -90,4 +88,5 @@ def update_dashboard(n):
 
 if __name__ == "__main__":
     app.run_server(debug=True)
+
 
