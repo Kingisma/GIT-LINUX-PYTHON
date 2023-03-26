@@ -87,6 +87,6 @@ def update_dashboard(n):
     return text, {"data": [graph_data], "layout": {"title": "Bitcoin Price", "plot_bgcolor": "#34495e", "paper_bgcolor": "#34495e", "font": {"color": "#ecf0f1"}, "xaxis": {"gridcolor": "#7f8c8d"}, "yaxis": {"gridcolor": "#7f8c8d"}}}, daily_table
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
-
+    app.run_server(debug=True,host='0.0.0.0')
+    
 
