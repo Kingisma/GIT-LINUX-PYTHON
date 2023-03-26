@@ -6,6 +6,8 @@ import subprocess
 import re
 import csv
 from datetime import datetime
+import pandas as pd
+import numpy as np
 
 app = dash.Dash(__name__)
 
@@ -17,24 +19,25 @@ app.layout = html.Div(
         html.Div(id="daily-report", style={"textAlign": "center"}),
         dcc.Interval(
             id="interval-component",
-            interval=30 * 1000,  # update every 30 seconds
+            interval=30 * 1000,  # update every 1 minute
             n_intervals=0
         )
     ],
-    style={"backgroundColor": "#34495e", "padding": "20px", "borderRadius": "10px"}
+    style={"backgroundColor": "#ecf0f1", "padding": "20px"}
 )
 
 x_values = []
 y_values = []
-daily_metrics = {}
+
+def get_30_days_volatility(prices):
+    returns = np.diff(prices) / prices[:-1]
+    return np.std(returns)
 
 @app.callback(
     [Output("live-update-text", "children"), Output("live-update-graph", "figure"), Output("daily-report", "children")],
     [Input("interval-component", "n_intervals")]
 )
 def update_dashboard(n):
-    global daily_metrics
-
     # Call the scraper script and get the output
     output = subprocess.check_output("./scraper.sh", shell=True)
 
@@ -58,22 +61,27 @@ def update_dashboard(n):
         "x": x_values,
         "y": y_values,
         "type": "line",
-        "line": {"color": "#e74c3c", "width": 2.5},
-        "name": "Price",
-        "marker": {"color": "#e74c3c", "size": 8}
+        "line": {"color": "#3498db"}
     }
 
-    # Update the daily report once every 24 hours (i.e., every 288 intervals, where each interval is 5 minutes)
-    if n % 288 == 0:
-        daily_metrics = {
-            "volatility": 0.02,
-            "open": 10000,
-            "close": 11000,
-            "evolution": 0.1
-        }
+    # Calculate 30 days volatility
+    if len(y_values) > 30:
+        volatility_30_days = get_30_days_volatility(np.array(y_values[-30:]))
+    else:
+        volatility_30_days = None
+
+    # Calculate daily metrics
+    daily_metrics = {
+        "volatility": 0.02,
+        "open": 10000,
+        "close": 11000,
+        "evolution": 0.1,
+        "30_days_volatility": volatility_30_days
+    }
+
     # Create a table to display the daily metrics
     table_rows = [
-        html.Tr([html.Td(metric.capitalize(), style={"padding": "5px"}), html.Td(str(value), style={"padding": "5px"})]) for metric, value in daily_metrics.items()
+        html.Tr([html.Td(metric.capitalize(), style={"padding": "8px"}), html.Td(str(value), style={"padding": "8px"})], style={"backgroundColor": "#2c3e50" if i % 2 == 0 else "#34495e"}) for i, (metric, value) in enumerate(daily_metrics.items())
     ]
     daily_table = html.Div(
         [
@@ -87,6 +95,6 @@ def update_dashboard(n):
     return text, {"data": [graph_data], "layout": {"title": "Bitcoin Price", "plot_bgcolor": "#34495e", "paper_bgcolor": "#34495e", "font": {"color": "#ecf0f1"}, "xaxis": {"gridcolor": "#7f8c8d"}, "yaxis": {"gridcolor": "#7f8c8d"}}}, daily_table
 
 if __name__ == "__main__":
-    app.run_server(debug=True,host='0.0.0.0')
+    app.run_server(debug=True, host='0.0.0.0', port=8050)
     
 
